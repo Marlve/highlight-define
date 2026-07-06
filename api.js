@@ -1,10 +1,36 @@
-import { getAPIKey } from "./storage.js";
+import { getAPIKey, saveCurrentModelIndex, getCurrentModelIndex } from "./storage.js";
 
 // 40RPM, 580 Request per day, 1m 250k tokens
 const model = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-3-flash-preview", "gemini-2.5-flash-lite", "gemini-2.5-flash"]
 
+export async function getTranslation(word) {
+  console.log("Running Translation")
+  try {
+    const apiKey = await getAPIKey();
+    if (!apiKey) {throw new Error(`no API Key in the storage.`)}
+
+    const response = await fetchAPI(word, apiKey);
+
+    const formatted_data = await formatAPIResponse(response)
+
+    return formatted_data
+
+  } catch (err) {
+    console.error("API.JS ERROR:", err);
+  }
+}
+
 async function fetchAPI(word, apiKey) {
-  const response = await fetch(
+  const startIndex = await getCurrentModelIndex();
+
+  console.log(startIndex)
+
+  for (let i = 0; i < model.length; i++) {
+    const idx = (startIndex + i) % model.length;
+
+    console.log("Current Model:", model[idx])
+
+    const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/interactions",
       {
         method: "POST",
@@ -13,44 +39,32 @@ async function fetchAPI(word, apiKey) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "gemini-3.5-flash",
+          model: model[idx],
           input: getPrompt(word),
           response_format: getResponseFormat()
         })
       }
     );
 
-    return response
-}
+    if (response.status === 429 || response.status === 503) continue;
+    if (!response.ok) throw new Error(`Error fetching ${response.status}: ${await response.text()}`);
 
-export async function getTranslation(word) {
-  console.log("Running API")
-  try {
-    const apiKey = await getAPIKey();
-    if (!apiKey) {throw new Error(`no API Key in the storage.`)}
-
-    const response = await fetchAPI(word, apiKey);
-
-    if (!response.ok) {
-      const errBody = await response.text();
-      throw new Error(`API error ${response.status}: ${errBody}`)
-    }
-    const formatted_date = formatAPIResponse(response)
-
-  } catch (err) {
-    console.error("ERROR:", err);
+    await saveCurrentModelIndex(idx);
+    return response;
   }
 }
 
 async function formatAPIResponse(response) {
   const json_response = await response.json();
+
   const text = json_response.steps
                 ?.find(step => step.type === "model_output")
                 ?.content?.find(c => c.type === "text")
-                ?.text
-  const parsed_text = JSON.parse(text)
+                ?.text;
 
-  return parsed_text
+  if (!text) throw new Error("No text found in API response");
+
+  return JSON.parse(text);
 }
 
 function getPrompt(word) {

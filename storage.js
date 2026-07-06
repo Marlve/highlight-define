@@ -7,9 +7,11 @@ export async function getAPIKey() {
   return API_KEY
 }
 
-export async function saveCurrentModel() {
+export async function saveCurrentModelIndex(index) {
+  await browser.storage.local.set({MODEL_INDEX: index})
 }
 
-export async function getCurrentModel() {
-  
+export async function getCurrentModelIndex() {
+  const {MODEL_INDEX} = await browser.storage.local.get("MODEL_INDEX")
+  return MODEL_INDEX ?? 0
 }
