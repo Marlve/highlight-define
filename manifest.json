@@ -30,5 +30,11 @@
   "icons": {
     "32": "icons/icons-32.png",
     "48": "icons/icons-48.png"
+  },
+
+  "background": {
+    "scripts": ["background.js"],
+    "service_worker": "background.js",
+    "type": "module"
   }
 }
