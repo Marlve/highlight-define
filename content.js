@@ -33,12 +33,14 @@ return prompt
 
 async function getTranslation(word) {
   try {
+    const apiKey = await getAPIKey();
+    console.log(apiKey)
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/interactions",
       {
         method: "POST",
         headers: {
-          "x-goog-api-key": getAPIKey(),
+          "x-goog-api-key": apiKey,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -74,6 +76,12 @@ async function getTranslation(word) {
         })
       }
     );
+
+    if (!response.ok) {
+      const errBody = await response.text();
+      throw new Error(`API error ${response.status}: ${errBody}`)
+    }
+
     const data = await response.json();
     const content = data.steps.find(step => step.type === "model_output")?.content?.find(c => c.type === "text")?.text;
     console.log("DATA:", content);

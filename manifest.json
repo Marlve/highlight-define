@@ -20,5 +20,15 @@
 
   "permissions": [
     "storage"
-  ]
+  ],
+
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": "icons/icons-48.png"
+  },
+
+  "icons": {
+    "32": "icons/icons-32.png",
+    "48": "icons/icons-48.png"
+  }
 }
