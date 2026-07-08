@@ -16,19 +16,16 @@ export async function getTranslation(word) {
     return formatted_data
 
   } catch (err) {
-    console.error("API.JS ERROR:", err);
+    console.error("API.JS", err);
+    throw err
   }
 }
 
 async function fetchAPI(word, apiKey) {
   const startIndex = await getCurrentModelIndex();
 
-  console.log(startIndex)
-
   for (let i = 0; i < model.length; i++) {
     const idx = (startIndex + i) % model.length;
-
-    console.log("Current Model:", model[idx])
 
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/interactions",
@@ -46,7 +43,7 @@ async function fetchAPI(word, apiKey) {
       }
     );
 
-    if (response.status === 429 || response.status === 503) continue;
+    if (response.status === 429 || response.status === 503) continue; // CHECK, probably change the 503 later
     if (!response.ok) throw new Error(`Error fetching ${response.status}: ${await response.text()}`);
 
     await saveCurrentModelIndex(idx);
@@ -109,4 +106,32 @@ function getResponseFormat() {
             }
           }
   return responseFormat
+}
+
+// -----------------------------------------------
+// HELPER FUNCTION
+// -----------------------------------------------
+
+export async function confirmAPIKey(apiKey) {
+  const response = await fetch(
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              { text: "Hello" }
+            ]
+          }
+        ]
+      })
+    }
+  );
+
+  return response.status === 200 || response.status === 429;
 }

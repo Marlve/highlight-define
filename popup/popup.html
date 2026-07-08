@@ -2,15 +2,28 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <style>
-    body { width: 250px; padding: 12px; font-family: sans-serif; }
-  </style>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h3>Highfine</h3>
-  <div id="status"></div>
-  <input type="password" id="apiKeyInput" placeholder="Enter Gemini API key">
-  <button id="saveKey">Save</button>
-  <script src="popup.js"></script>
+  <div class="popup">
+    <div class="popup-header">
+      <p class="wordmark">Highfine</p>
+      <p class="tagline">Korean ↔ English, on any page</p>
+    </div>
+    <div class="popup-body">
+      <label class="field-label">Gemini API key</label>
+      <input class="key-input" id="apiKeyInput" type="password" placeholder="AIza••••••••••••••••" />
+      <p class="hint">Stored only on this device. Read the README.md if you don't know how to get your API key.</p>
+      <button class="save-btn" id="saveKey">Save key</button>
+      <div class="status-row">
+        <span class="status-dot" id="statusDot"></span>
+        <p id="apiStatus"></p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="popup.js"></script>
 </body>
 </html>
