@@ -1,0 +1,136 @@
+:root{
+  --bg-page:#222222;
+  --surface-card:#2a2a2a;
+  --surface-raised:#313131;
+  --accent:#961B2B;
+  --accent-hover:#B32338;
+  --gold:#e6b93a;
+  --gold-dim:#8a6c22;
+  --ink:#F2F2F2;
+  --ink-muted:#9a9a9a;
+  --line:#3d3d3d;
+}
+*{box-sizing:border-box;}
+
+/* ---------- TRIGGER BUTTON ---------- */
+.trigger-wrap{
+  position:relative;
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.trigger-btn{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--accent);
+  border:none;
+  color:#F2F2F2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12px;
+  cursor:pointer;
+  position:relative;
+  z-index:2;
+}
+.ring{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:2px dashed var(--gold);
+  animation:spin 3.2s linear infinite;
+  box-shadow:0 0 12px 1px rgba(230,185,58,0.45);
+}
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
+.state-caption{
+  font-size:12px;
+  color:var(--ink-muted);
+  text-align:center;
+}
+
+/* ---------- RESULT CARD ---------- */
+.result-card{
+  width:300px;
+  background:var(--surface-card);
+  border-radius:12px;
+  border:1px solid var(--line);
+  padding:18px 20px 16px;
+}
+.result-head{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  margin-bottom:2px;
+}
+.word-kr{
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:22px;
+  font-weight:500;
+  color:var(--ink);
+}
+.word-romanized{
+  font-size:12px;
+  color:var(--ink-muted);
+}
+.word-pos{
+  font-size:10px;
+  font-weight:500;
+  color:#e88a97;
+  background:rgba(150,27,43,0.28);
+  padding:2px 7px;
+  border-radius:20px;
+  display:inline-block;
+  margin:8px 0 14px;
+}
+.meaning{
+  display:flex;
+  gap:10px;
+  padding:12px 0;
+  border-top:1px solid var(--line);
+}
+.m-num{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  color:var(--gold);
+  min-width:16px;
+}
+.m-body{flex:1;}
+.m-def{
+  font-size:13px;
+  color:var(--ink);
+  margin:0 0 8px;
+  line-height:1.4;
+}
+.m-example{
+  background:rgba(150,27,43,0.14);
+  border-left:2px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:7px 10px;
+}
+.ex-kr{
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:12.5px;
+  color:var(--ink);
+  margin:0 0 3px;
+}
+.ex-en{
+  font-size:11.5px;
+  color:var(--ink-muted);
+  margin:0;
+  font-style:italic;
+}
+.card-footer{
+  margin-top:6px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+  font-size:10px;
+  color:var(--ink-muted);
+  text-align:right;
+}
