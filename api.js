@@ -43,7 +43,7 @@ async function fetchAPI(word, apiKey) {
       }
     );
 
-    if (response.status === 429 || response.status === 503) continue; // CHECK, probably change the 503 later
+    if (response.status === 429) continue;
     if (!response.ok) throw new Error(`Error fetching ${response.status}: ${await response.text()}`);
 
     await saveCurrentModelIndex(idx);

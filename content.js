@@ -11,8 +11,6 @@ const styleEl = document.createElement("style");
 styleEl.textContent = /* css */`
   :host{
     all: initial; /* defends the host element itself against aggressive page-wide selectors */
-  }
-  :root{
     --bg-page:#222222;
     --surface-card:#2a2a2a;
     --surface-raised:#313131;
