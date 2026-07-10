@@ -1,4 +1,8 @@
-document.addEventListener('mouseup', (e) => {
+document.addEventListener('mouseup', async (e) => {
+  const hasKey = await browser.runtime.sendMessage({type: "HAS_APIKEY"});
+
+  if (!hasKey) return;
+
   if (e.target.closest("#translate-btn")) return;
   const selection = getSelection().toString().trim();
   if (selection.length === 0 || !isKorean(selection)) {

@@ -1,9 +1,11 @@
-import {getTranslation} from "./api.js"
+import {getTranslation} from "./api.js";
+import { getAPIKey } from "./storage.js";
+
 const cache = new Map()
 const MAX_CACHE_SIZE = 100;
 
 browser.runtime.onMessage.addListener(async (message) => {
-  if (message.type == "GET_TRANSLATION") {
+  if (message.type === "GET_TRANSLATION") {
     try {
       if (cache.has(message.word)) {
         console.log("CACHE EXIST")
@@ -18,6 +20,11 @@ browser.runtime.onMessage.addListener(async (message) => {
     } catch (err) {
       return {success: false, error: err}
     }
+  }
+
+  if (message.type === "HAS_APIKEY") {
+    if (await getAPIKey()) return true;
+    return false;
   }
 });
 
