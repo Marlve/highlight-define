@@ -1,7 +1,7 @@
 import { getAPIKey, saveCurrentModelIndex, getCurrentModelIndex } from "./storage.js";
 
 // 40RPM, 580 Request per day, 1m 250k tokens
-const model = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-3-flash-preview", "gemini-2.5-flash-lite", "gemini-2.5-flash"]
+const model = ["gemini-3.1-flash-lite", "gemini-2.5-flash-lite", "gemini-3.5-flash", "gemini-2.5-flash", "gemini-3-flash-preview"]
 
 export async function getTranslation(word) {
   console.log("Running Translation")
@@ -65,14 +65,19 @@ async function formatAPIResponse(response) {
 }
 
 function getPrompt(word) {
-  const prompt = `You are a Korean-English dictionary assistant. The user highlighted this Korean word or phrase on a webpage: "${word}"
+  const prompt = `You are a Korean-English dictionary assistant.
+
+The user highlighted this Korean word or phrase:
+"${word}"
 
 Provide:
-1. All common meanings/senses of this word (Korean words often have multiple distinct meanings the learner should know)
-2. For each meaning, a short English definition
-3. For each meaning, one natural example sentence in Korean using that word in that sense, plus its English translation
+1. The 1-3 most common meanings/senses a learner should know.
+2. For each meaning:
+   - short English definition
+   - one natural Korean example sentence
+   - English translation of the example
 
-Respond only in the specified JSON structure, no other text.`;
+Respond only using the provided JSON schema.`;
 
   return prompt
 }
