@@ -251,8 +251,6 @@ function buildResultInner(word, meanings) {
 function transitionToResult(word, meanings) {
   const card = document.getElementById("translate-result");
   if (!card) {
-    // fallback: skeleton was never shown, just show result normally
-    showResultCard(word, meanings);
     return;
   }
 
