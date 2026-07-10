@@ -1,25 +1,13 @@
-// BUG LIST
-// THE DIV GENERATE COULD BE HIGHLIGHTED AND IF IT IS A KOREAN WORD IT WILL SHOW UP AGAIN
-// SOME PAGES HAVE A WEIRD CSS
-// https://www.90daykorean.com/korean-words/ THIS WEBSITE IS ONE OF THEM
-// IF TRANSLATE CARD EXIST, CANT TRANSLATE ANOTHER WORD
-// TRANSLATE CARD KIND OF FOLLOWS AROUND IT SHOULD JUST BE STICKY AND BE NEAR THE WORD IT WAS FROM
-// IT'S ANNOYING TO HAVE THE CARD SHOWN FOREVER BUT I DONT WANT IT TO DISAPPEAR EASILY BECAUSE IT WILL USE A LOT OF TOKEN AND PROMPT.
-// TEST A KOREAN WORD WITH MANY MEANINGS
-// REVIEW THIS GENERATED CODE.
-// IF NO KEY SHOW BUTTON
 document.addEventListener('mouseup', (e) => {
   if (e.target.closest("#translate-btn")) return;
   const selection = getSelection().toString().trim();
   if (selection.length === 0 || !isKorean(selection)) {
     deleteButton();
     return;
-  }
-  if (!buttonExist()) {
-    createButton(e, selection);
   } else {
-    moveButton(e)
-  }
+    deleteButton();
+    createButton(e, selection);
+  };
 })
 
 async function startTranslate(word) {
@@ -153,11 +141,6 @@ function deleteButton() {
     const wrap = getButtonElement()
     wrap.remove()
   }
-}
-function moveButton(e) {
-  const wrap = getButtonElement()
-  wrap.style.left = `${e.clientX}px`;
-  wrap.style.top = `${e.clientY}px`;
 }
 
 function showLoading() {
