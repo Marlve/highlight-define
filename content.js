@@ -8,7 +8,52 @@ document.documentElement.appendChild(shadowHost); // <html>, not <body> — safe
 const shadowRoot = shadowHost.attachShadow({ mode: "open" });
 
 const styleEl = document.createElement("style");
-styleEl.textContent = /* css */`
+
+const fontFaceCSS = `
+  @font-face{
+    font-family:'Space Grotesk';
+    font-weight:400;
+    src:url('${browser.runtime.getURL("fonts/space-grotesk-400.woff2")}') format('woff2');
+  }
+  @font-face{
+    font-family:'Space Grotesk';
+    font-weight:500;
+    src:url('${browser.runtime.getURL("fonts/space-grotesk-500.woff2")}') format('woff2');
+  }
+  @font-face{
+    font-family:'Space Grotesk';
+    font-weight:600;
+    src:url('${browser.runtime.getURL("fonts/space-grotesk-600.woff2")}') format('woff2');
+  }
+  @font-face{
+    font-family:'Inter';
+    font-weight:400;
+    src:url('${browser.runtime.getURL("fonts/inter-400.woff2")}') format('woff2');
+  }
+  @font-face{
+    font-family:'Inter';
+    font-weight:500;
+    src:url('${browser.runtime.getURL("fonts/inter-500.woff2")}') format('woff2');
+  }
+  @font-face{
+    font-family:'Inter';
+    font-weight:600;
+    src:url('${browser.runtime.getURL("fonts/inter-600.woff2")}') format('woff2');
+  }
+  @font-face{
+    font-family:'Noto Sans KR';
+    font-weight:400;
+    src:url('${browser.runtime.getURL("fonts/noto-sans-kr-400.woff2")}') format('woff2');
+  }
+  @font-face{
+    font-family:'Noto Sans KR';
+    font-weight:500;
+    src:url('${browser.runtime.getURL("fonts/noto-sans-kr-500.woff2")}') format('woff2');
+  }
+`;
+;
+
+styleEl.textContent = fontFaceCSS + `
   :host{
     all: initial; /* defends the host element itself against aggressive page-wide selectors */
     --bg-page:#222222;
@@ -214,7 +259,12 @@ styleEl.textContent = /* css */`
     color:var(--gold);
     min-width:16px;
   }
-  .m-body{flex:1;}
+  .m-body{
+    flex:1;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+  }
   .m-def{
     font-size:13px;
     color:var(--ink);

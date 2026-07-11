@@ -35,5 +35,12 @@
     "scripts": ["background.js"],
     "service_worker": "background.js",
     "type": "module"
-  }
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": ["fonts/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
